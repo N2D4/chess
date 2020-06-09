@@ -1,0 +1,21 @@
+<div class="chessview">
+    <div class="main">
+        <div>
+            <app-chess-player-info [name]="players[0].name" [msTime]="timeRemaining[0]" [isTicking]="game.turn() === 'w'"></app-chess-player-info>
+        </div>
+        <div class="chessboard">
+            <app-chess-board
+                [position]="game.fen()"
+                [checkPreventPickUp]="boundCheckPreventPickUp"
+                [checkPreventMove]="boundCheckPreventMove"
+                [onMove]="boundOnMove"
+            ></app-chess-board>
+        </div>
+        <div>
+            <app-chess-player-info [name]="players[1].name" [msTime]="timeRemaining[1]" [isTicking]="game.turn() === 'b'"></app-chess-player-info>
+        </div>
+    </div>
+    <div class="sidebar">
+        <app-chess-game-info></app-chess-game-info>
+    </div>
+</div>

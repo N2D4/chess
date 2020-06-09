@@ -1,0 +1,32 @@
+@media (max-aspect-ratio: 4/3) {
+    .chessview {
+        flex-direction: column;
+    }
+}
+
+@media (min-aspect-ratio: 4/3) {
+    .chessview {
+        flex-direction: row;
+    }
+}
+
+
+.chessview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+}
+
+.chessboard {
+    width: 80vmin;
+    height: 80vmin;
+}
