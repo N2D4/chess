@@ -1,6 +1,6 @@
 import { Square, PromotionChoice } from '../chess-types';
 
-type MoveHandler = (from: Square, to: Square, promotionChoice?: PromotionChoice) => void
+type MoveHandler = (from: Square, to: Square, promotionChoice?: PromotionChoice) => void;
 
 export type ChessPlayer = {
     name: string,
