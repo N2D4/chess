@@ -19,14 +19,28 @@ $chess-accent: mat-palette($mat-amber, A200, A100, A400);
 $chess-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$chess-theme: mat-dark-theme($chess-primary, $chess-accent, $chess-warn);
+$chess-dark-theme: mat-dark-theme($chess-primary, $chess-accent, $chess-warn);
+$chess-light-theme: mat-light-theme($chess-accent, $chess-primary, $chess-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($chess-theme);
+@include angular-material-theme($chess-dark-theme);
+
+.n2d4-dark-theme, .n2d4-light-theme .n2d4-dark-theme, .n2d4-dark-theme .n2d4-light-theme .n2d4-dark-theme {
+    @include angular-material-theme($chess-dark-theme);
+}
+
+.n2d4-light-theme, .n2d4-dark-theme .n2d4-light-theme, .n2d4-light-theme .n2d4-dark-theme .n2d4-light-theme {
+    @include angular-material-theme($chess-light-theme);
+}
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}

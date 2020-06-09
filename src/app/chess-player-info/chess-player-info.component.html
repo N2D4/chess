@@ -1,1 +1,16 @@
-<div class="cont">{{name}}</div>
+<div [class]="'outer n2d4-' + (darkTheme ? 'dark' : 'light') + '-theme'">
+    <mat-card>
+        <div class="cont">
+            <div class="name">
+                {{name}}
+            </div>
+            <div *ngIf="msTime - 1 !== msTime" [class]="'clock n2d4-' + (darkTheme ? 'light' : 'dark') + '-theme'">
+                <mat-card class="timercard">
+                    <div class="timerdiv">
+                        {{formattedTime()}}
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </mat-card>
+</div>

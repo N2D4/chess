@@ -1,5 +1,47 @@
+.outer {
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
 .cont {
-    margin-top: 16px;
-    margin-bottom: 16px;
-    font-size: 150%;
+    position: relative;
+    height: 24px;
+}
+
+.name {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+    display: inline;
+    font-size: 120%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.clock {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(0, -50%);
+    font-size: 140%;
+}
+
+.timercard {
+    position: relative;
+    width: 36px;
+    height: 2px;
+}
+
+.timerdiv {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

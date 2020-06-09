@@ -15,6 +15,7 @@ export class ChessBoardComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() checkPreventPickUp: (source: Square, piece: Piece, pos: any, orientation: Color) => boolean = () => false;
   @Input() checkPreventMove: (source: Square, target: Square, piece: Piece, newPos: any, oldPos: any, orientation: Color) => boolean = () => false;
   @Input() onMove: (source: Square, target: Square, piece: Piece, newPos: any, oldPos: any, orientation: Color) => void = () => {};
+  @Input() isFlipped: boolean;
 
   @ViewChild('board') boardElement: ElementRef;
   board: any = null;
@@ -35,7 +36,12 @@ export class ChessBoardComponent implements OnInit, OnChanges, AfterViewInit {
         this.createBoard();
       }
     } else {
-      this.board.position(changes.position.currentValue);
+      if (changes.position) {
+        this.board.position(changes.position.currentValue);
+      }
+      if (changes.isFlipped) {
+        this.board.orientation(changes.isFlipped.currentValue ? 'black' : 'white');
+      }
     }
   }
 
@@ -45,6 +51,7 @@ export class ChessBoardComponent implements OnInit, OnChanges, AfterViewInit {
 
     this.board = new (globalThis as any).Chessboard(id, {
       position: this.position,
+      orientation: this.isFlipped ? 'black' : 'white',
       draggable: true,
       pieceTheme: 'assets/chesspieces/wikipedia/{piece}.svg',
       onDragStart: (source, piece, pos, orientation) => {
