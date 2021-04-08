@@ -11,8 +11,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChessGameInfoComponent } from './chess-game-info/chess-game-info.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
-import { MatCardModule, MatCard } from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
 import { MsgboxComponent } from './msgbox/msgbox.component';
 
 @NgModule({
@@ -33,6 +34,7 @@ import { MsgboxComponent } from './msgbox/msgbox.component';
     MatCardModule,
     FormsModule,
     MatDialogModule,
+    MatListModule,
   ],
   entryComponents: [
     MsgboxComponent,

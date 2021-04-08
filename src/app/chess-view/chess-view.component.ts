@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Square, Piece, Color } from '../../chess-types';
+import { Square, Piece, Color, PromotionChoice } from '../../chess-types';
 import { MatDialog } from '@angular/material/dialog';
 import { MsgboxComponent } from '../msgbox/msgbox.component';
 import { LocalPlayerFactory } from '../../chess-players/local-player';
 import { ChessPlayer } from 'src/chess-players/chess-player';
+import { RandomizerPlayerFactory } from 'src/chess-players/randomizer-player';
 
 const Chess = (globalThis as any).Chess;
 const pid = (c: string) => Number(c === 'b' || c === 'B');
@@ -16,8 +17,9 @@ const pid = (c: string) => Number(c === 'b' || c === 'B');
 export class ChessViewComponent implements OnInit, OnDestroy {
   game = new Chess();
   players: [ChessPlayer, ChessPlayer] = [
-    LocalPlayerFactory('White', 120_000, 5_000),
-    LocalPlayerFactory('Black', 120_000, 5_000),
+    // LocalPlayerFactory('White', 20_000, 5_000),
+    RandomizerPlayerFactory(),
+    RandomizerPlayerFactory(),
   ];
   timeRemaining: number[];
   isFlipped: boolean;
@@ -30,17 +32,19 @@ export class ChessViewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.timeRemaining = this.players.map(p => p.msStartTime);
-    this.isFlipped = this.players[0].moveEmitter !== 'local' && this.players[1].moveEmitter === 'local';
-    this.players.forEach(p => {
-      if (p.moveEmitter !== 'local') {
-        p.moveEmitter(m => this.doMove(m));
-      }
-    });
+    this.isFlipped = this.players[0].makeMove !== 'local' && this.players[1].makeMove === 'local';
     this.tickIntervalId = setInterval(() => this.tickClock(), 50);
+    this.onTurn();
   }
 
   ngOnDestroy(): void {
     clearInterval(this.tickIntervalId);
+  }
+
+  getGameClone(): any {
+    const gameClone = new Chess();
+    gameClone.load_pgn(this.game.pgn());
+    return gameClone;
   }
 
   tickClock(): boolean {
@@ -121,16 +125,15 @@ export class ChessViewComponent implements OnInit, OnDestroy {
   }
 
   checkPreventPickUp(source: Square, piece: Piece, pos: any, orientation: Color): boolean {
-    return this.isGameOver() || this.players[pid(piece[0])].moveEmitter !== 'local';
+    return this.isGameOver() || this.players[pid(piece[0])].makeMove !== 'local';
   }
   boundCheckPreventPickUp = this.checkPreventPickUp.bind(this);
 
   checkPreventMove(source: Square, target: Square, piece: Piece, newPos: any, oldPos: any, orientation: Color): boolean {
-    if (this.players[pid(piece[0])].moveEmitter !== 'local') {
+    if (this.players[pid(piece[0])].makeMove !== 'local') {
       return true;
     }
-    const gameClone = new Chess();
-    gameClone.load_pgn(this.game.pgn());
+    const gameClone = this.getGameClone();
     if (!gameClone.move({from: source, to: target})) {
       return true;
     }
@@ -145,7 +148,7 @@ export class ChessViewComponent implements OnInit, OnDestroy {
   }
   boundOnMove = this.onMove.bind(this);
 
-  doMove(move: string | {from: Square, to: Square}): 'ok' | 'illegal' | 'timeout' {
+  doMove(move: string | {from: Square, to: Square, promotion?: PromotionChoice}): 'ok' | 'illegal' | 'timeout' {
     if (this.tickClock()) {
       return 'timeout';
     }
@@ -158,14 +161,28 @@ export class ChessViewComponent implements OnInit, OnDestroy {
     const id = pid(moveObj.color);
     this.timeRemaining[id] += this.players[id].msIncrement;
 
-    this.players.forEach(p => p.onMove(moveObj.from, moveObj.to));
+    this.players.forEach((p, i) => p.onMove(moveObj.from, moveObj.to, null));
     this.turnStart = performance.now();
 
     if (this.handleGameOver()) {
       return 'ok';
     }
 
+    this.onTurn();
     return 'ok';
+  }
+
+  onTurn() {
+    const p = pid(this.game.turn());
+    const makeMove = this.players[p].makeMove;
+    if (makeMove !== 'local') {
+      (async () => {
+        const move = await makeMove(this.getGameClone());
+        if (!this.doMove(move)) {
+          throw new Error(`Illegal move played - this shouldn't happen!`);
+        }
+      })();
+    }
   }
 
 }

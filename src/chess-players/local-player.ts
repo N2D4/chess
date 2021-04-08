@@ -21,7 +21,7 @@ export const LocalPlayerFactory: ChessPlayerFactory<ChessPlayer, typeof paramete
         msStartTime: msTime,
         msIncrement: msIncrement,
         onMove: () => {},
-        moveEmitter: 'local',
+        makeMove: 'local',
     } as const),
     {
         parameters: parameters,

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, OnChanges, Input, SimpleChanges, AfterViewInit } from '@angular/core';
 import ResizeObserver from 'resize-observer-polyfill';
-import {Square, Piece, Color} from '../../chess-types';
+import { Square, Piece, Color, FEN } from '../../chess-types';
 
 
 let chessboardsCreated = 0;
@@ -11,7 +11,7 @@ let chessboardsCreated = 0;
   styleUrls: ['./chess-board.component.scss']
 })
 export class ChessBoardComponent implements OnInit, OnChanges, AfterViewInit {
-  @Input() position: string;
+  @Input() position: FEN;
   @Input() checkPreventPickUp: (source: Square, piece: Piece, pos: any, orientation: Color) => boolean = () => false;
   @Input() checkPreventMove: (source: Square, target: Square, piece: Piece, newPos: any, oldPos: any, orientation: Color) => boolean = () => false;
   @Input() onMove: (source: Square, target: Square, piece: Piece, newPos: any, oldPos: any, orientation: Color) => void = () => {};

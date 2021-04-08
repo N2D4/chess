@@ -1,4 +1,4 @@
-import { Square, PromotionChoice } from '../chess-types';
+import { Square, PromotionChoice, FEN } from '../chess-types';
 
 type MoveHandler = (from: Square, to: Square, promotionChoice?: PromotionChoice) => void;
 
@@ -7,7 +7,7 @@ export type ChessPlayer = {
     msStartTime: number, // infinity is valid
     msIncrement: number,
     onMove: MoveHandler,
-    moveEmitter: 'local' | ((handler: MoveHandler) => void),
+    makeMove: 'local' | ((game: any) => Promise<{from: Square, to: Square, promotionChoice?: PromotionChoice}>),
 };
 
 export type EngineParameter = {
