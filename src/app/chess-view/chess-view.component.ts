@@ -17,8 +17,7 @@ const pid = (c: string) => Number(c === 'b' || c === 'B');
 export class ChessViewComponent implements OnInit, OnDestroy {
   game = new Chess();
   players: [ChessPlayer, ChessPlayer] = [
-    // LocalPlayerFactory('White', 20_000, 5_000),
-    RandomizerPlayerFactory(),
+    LocalPlayerFactory('White', 600_000, 5_000),
     RandomizerPlayerFactory(),
   ];
   timeRemaining: number[];
