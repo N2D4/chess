@@ -5,6 +5,7 @@ import { MsgboxComponent } from '../msgbox/msgbox.component';
 import { LocalPlayerFactory } from '../../chess-players/local-player';
 import { ChessPlayer } from 'src/chess-players/chess-player';
 import { RandomizerPlayerFactory } from 'src/chess-players/randomizer-player';
+import { TannerPlayerFactory } from 'src/chess-players/tanner-player';
 
 const Chess = (globalThis as any).Chess;
 const pid = (c: string) => Number(c === 'b' || c === 'B');
@@ -16,9 +17,12 @@ const pid = (c: string) => Number(c === 'b' || c === 'B');
 })
 export class ChessViewComponent implements OnInit, OnDestroy {
   game = new Chess();
-  players: [ChessPlayer, ChessPlayer] = [
-    LocalPlayerFactory('White', 600_000, 5_000),
-    RandomizerPlayerFactory(),
+  players: [ChessPlayer, ChessPlayer] = Math.random() < 0.5 ? [
+    LocalPlayerFactory('Player', 600_000, 5_000),
+    TannerPlayerFactory(),
+  ] : [
+    TannerPlayerFactory(),
+    LocalPlayerFactory('Player', 600_000, 5_000),
   ];
   timeRemaining: number[];
   isFlipped: boolean;
@@ -141,7 +145,7 @@ export class ChessViewComponent implements OnInit, OnDestroy {
   boundCheckPreventMove = this.checkPreventMove.bind(this);
 
   onMove(source: Square, target: Square, piece: Piece, newPos: any, oldPos: any, orientation: Color): void {
-    if (!this.doMove({from: source, to: target})) {
+    if (this.doMove({ from: source, to: target }) === 'illegal') {
       throw new Error(`Illegal move played by local player - this shouldn't be possible!`);
     }
   }
@@ -153,7 +157,7 @@ export class ChessViewComponent implements OnInit, OnDestroy {
     }
 
     const moveObj = this.game.move(move);
-    if (this.game === null) {
+    if (moveObj === null) {
       return 'illegal';
     }
 
@@ -177,8 +181,8 @@ export class ChessViewComponent implements OnInit, OnDestroy {
     if (makeMove !== 'local') {
       (async () => {
         const move = await makeMove(this.getGameClone());
-        if (!this.doMove(move)) {
-          throw new Error(`Illegal move played - this shouldn't happen!`);
+        if (this.doMove(move) === 'illegal') {
+          throw new Error(`Illegal move ${JSON.stringify(move)} played - this shouldn't happen!`);
         }
       })();
     }

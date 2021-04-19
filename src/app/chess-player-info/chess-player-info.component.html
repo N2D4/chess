@@ -1,5 +1,5 @@
 <div [class]="'outer n2d4-' + (darkTheme ? 'dark' : 'light') + '-theme'">
-    <mat-card>
+    <mat-card [class]="'ocard ' + (isTicking ? 'ticking' : '')">
         <div class="cont">
             <div class="name">
                 {{name}}

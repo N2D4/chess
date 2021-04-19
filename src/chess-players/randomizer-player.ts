@@ -2,14 +2,10 @@ import { ChessPlayerFactory, ChessPlayer, EngineParameter } from './chess-player
 import { PromotionChoice, Square } from 'src/chess-types';
 import { wait } from 'src/utils';
 
-const Chess = (globalThis as any).Chess;
-
-
 const parameters = [] as const;
 
 export const RandomizerPlayerFactory: ChessPlayerFactory<ChessPlayer, typeof parameters> = Object.assign(
     () => {
-        const moveHandlers = [];
         return {
             name: 'Randomizer',
             msStartTime: Infinity,
