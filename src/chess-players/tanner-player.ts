@@ -36,8 +36,8 @@ export const TannerPlayerFactory: ChessPlayerFactory<ChessPlayer, typeof paramet
                 await wait(500);
                 const move = (await bobbyAPI).askTanner();
                 return {
-                    from: 'abcdefgh'[move / 8 / 8 / 8 | 0] + (1 + move / 8 / 8 % 8 | 0),
-                    to: 'abcdefgh'[move / 8 % 8 | 0] + (1 + move % 8),
+                    from: 'abcdefgh'[Math.floor(move / 8 / 8 / 8)] + Math.floor(1 + move / 8 / 8 % 8),
+                    to: 'abcdefgh'[Math.floor(move / 8 % 8)] + (1 + move % 8),
                     promotionChoice: 'Q',
                 } as any;
             },
