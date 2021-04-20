@@ -39,7 +39,7 @@ export const TannerPlayerFactory: ChessPlayerFactory<ChessPlayer, typeof paramet
                 return {
                     from: 'abcdefgh'[Math.floor(move / 8 / 8 / 8)] + Math.floor(1 + move / 8 / 8 % 8),
                     to: 'abcdefgh'[Math.floor(move / 8 % 8)] + (1 + move % 8),
-                    promotionChoice: 'Q',
+                    promotionChoice: 'q',
                 } as any;
             },
         } as const;

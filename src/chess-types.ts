@@ -1,5 +1,5 @@
 export type Color = 'white' | 'black';
-export type PromotionChoice = 'Q' | 'R' | 'B' | 'N';
+export type PromotionChoice = 'q' | 'r' | 'b' | 'n';
 export type ColorlessPiece = PromotionChoice | 'K' | 'P';
 export type BlackPiece = 'bK' | 'bQ' | 'bR' | 'bB' | 'bN' | 'bP';
 export type WhitePiece = 'wK' | 'wQ' | 'wR' | 'wB' | 'wN' | 'wP';

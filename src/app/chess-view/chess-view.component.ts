@@ -137,7 +137,7 @@ export class ChessViewComponent implements OnInit, OnDestroy {
       return true;
     }
     const gameClone = this.getGameClone();
-    if (!gameClone.move({from: source, to: target})) {
+    if (!gameClone.move({ from: source, to: target, promotion: 'q' })) {
       return true;
     }
     return false;
@@ -145,7 +145,7 @@ export class ChessViewComponent implements OnInit, OnDestroy {
   boundCheckPreventMove = this.checkPreventMove.bind(this);
 
   onMove(source: Square, target: Square, piece: Piece, newPos: any, oldPos: any, orientation: Color): void {
-    if (this.doMove({ from: source, to: target }) === 'illegal') {
+    if (this.doMove({ from: source, to: target, promotion: 'q' }) === 'illegal') {
       throw new Error(`Illegal move played by local player - this shouldn't be possible!`);
     }
   }
