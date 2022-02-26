@@ -34,7 +34,7 @@ export const TannerPlayerFactory: ChessPlayerFactory<ChessPlayer, typeof paramet
             },
             makeMove: async (game: any) => {
                 await wait(500);
-                const move = (await bobbyAPI).askTanner();
+                const move = (await bobbyAPI).askTanner(2_500_000);
                 await wait(250);
                 return {
                     from: 'abcdefgh'[Math.floor(move / 8 / 8 / 8)] + Math.floor(1 + move / 8 / 8 % 8),
