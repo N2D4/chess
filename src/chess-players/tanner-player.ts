@@ -8,8 +8,13 @@ let bobbyAPIResolver: (a: any) => void;
 let bobbyAPI: Promise<any> = new Promise(resolve => bobbyAPIResolver = resolve);
 Module.onRuntimeInitialized = async _ => {
     bobbyAPIResolver({
-        move: Module.cwrap('move', null, ['number', 'number', 'number', 'number']),
-        askTanner: Module.cwrap('askTanner', 'number', []),
+      move: Module.cwrap('move', null, [
+        'number',
+        'number',
+        'number',
+        'number',
+      ]),
+      askTanner: Module.cwrap('askTanner', 'number', ['number']),
     });
 };
 
